@@ -37,3 +37,16 @@ def machine(nom):
                 return jsonify(i)
         return "cette machine n'existe pas", 404
 
+@app.route('/liste/<nom>', methods=['DELETE'])
+def delete(nom):
+    with open("/home/osboxes/Documents/tp_flask/bdd.json", "r") as f:
+        l = json.load(f)
+        machine = {}
+        for i in l:
+            if i["name"] == nom:
+                l.remove(i)
+                machine = i
+    with open("/home/osboxes/Documents/tp_flask/bdd.json", "w") as f:
+        f.write(json.dumps(l, sort_keys=True, indent=4))
+        return jsonify(machine)
+
